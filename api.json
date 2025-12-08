@@ -1,0 +1,836 @@
+{
+    "info": {
+      "_postman_id": "c7d65b31-0df0-4ac7-8b91-27b44c88b0af",
+      "name": "SPK WASPAS API (Laravel 11)",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "_Test",
+        "item": [
+          {
+            "name": "API Test",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/test",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "test"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Auth",
+        "item": [
+          {
+            "name": "Login (Get Token)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"manager@example.com\",\n  \"password\": \"password\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/login",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "login"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Me (User Info)",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/me",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "me"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Logout",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/logout",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "logout"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Staff - Dashboard",
+        "item": [
+          {
+            "name": "Staff Dashboard Statistik",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/dashboard",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "dashboard"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Staff - Influencers",
+        "item": [
+          {
+            "name": "List Influencers",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/influencers",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "influencers"
+                ],
+                "query": [
+                  {
+                    "key": "q",
+                    "value": "",
+                    "description": "opsional: keyword pencarian"
+                  },
+                  {
+                    "key": "per_page",
+                    "value": "10",
+                    "description": "opsional: jumlah per halaman"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Create Influencer",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Influencer Contoh\",\n  \"username\": \"influencer123\",\n  \"platform\": \"Instagram\",\n  \"followers\": 25000,\n  \"engagement_rate\": 4.5,\n  \"niche\": \"Fashion\",\n  \"email\": \"influencer@example.com\",\n  \"phone\": \"08123456789\",\n  \"profile_link\": \"https://instagram.com/influencer123\",\n  \"notes\": \"Kandidat potensial untuk campaign A.\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/staff/influencers",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "influencers"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Show Influencer by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/influencers/{{influencer_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "influencers",
+                  "{{influencer_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Update Influencer by ID",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Influencer Contoh Update\",\n  \"followers\": 30000,\n  \"notes\": \"Update catatan terbaru.\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/staff/influencers/{{influencer_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "influencers",
+                  "{{influencer_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Delete Influencer by ID",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/influencers/{{influencer_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "influencers",
+                  "{{influencer_id}}"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Staff - Criteria & Weights",
+        "item": [
+          {
+            "name": "List Criteria",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/criteria",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "criteria"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Create Criterion",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"code\": \"C1\",\n  \"name\": \"Jumlah Followers\",\n  \"weight\": 0.3,\n  \"type\": \"benefit\",\n  \"is_active\": true\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/staff/criteria",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "criteria"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Show Criterion by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/criteria/{{criterion_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "criteria",
+                  "{{criterion_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Update Criterion by ID",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Jumlah Followers (Update)\",\n  \"weight\": 0.25\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/staff/criteria/{{criterion_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "criteria",
+                  "{{criterion_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Delete Criterion by ID",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/criteria/{{criterion_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "criteria",
+                  "{{criterion_id}}"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Staff - WASPAS & Selected",
+        "item": [
+          {
+            "name": "List WASPAS Histories (Staff)",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/waspas",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "waspas"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Show WASPAS Detail by History ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/waspas/{{waspas_history_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "waspas",
+                  "{{waspas_history_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Toggle Selected Influencer (Endorse)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/waspas/item/{{waspas_item_id}}/toggle",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "waspas",
+                  "item",
+                  "{{waspas_item_id}}",
+                  "toggle"
+                ]
+              }
+            }
+          },
+          {
+            "name": "List Selected Influencers (Endorse List)",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/staff/selected-influencers",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "staff",
+                  "selected-influencers"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Manager - Dashboard",
+        "item": [
+          {
+            "name": "Manager Dashboard Statistik",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/dashboard",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "dashboard"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Manager - Staff",
+        "item": [
+          {
+            "name": "List Staff",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/staff",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "staff"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Create Staff",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Staff Baru\",\n  \"email\": \"staffbaru@example.com\",\n  \"password\": \"password\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/manager/staff",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "staff"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Show Staff by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/staff/{{staff_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "staff",
+                  "{{staff_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Update Staff by ID",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Staff Update\",\n  \"email\": \"staffupdate@example.com\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/manager/staff/{{staff_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "staff",
+                  "{{staff_id}}"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Delete Staff by ID",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/staff/{{staff_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "staff",
+                  "{{staff_id}}"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Manager - WASPAS Result",
+        "item": [
+          {
+            "name": "List Semua Hasil WASPAS",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/waspas",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "waspas"
+                ]
+              }
+            }
+          },
+          {
+            "name": "Detail Hasil WASPAS by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/waspas/{{waspas_history_id}}",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "waspas",
+                  "{{waspas_history_id}}"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Manager - Endorse History",
+        "item": [
+          {
+            "name": "List Endorse History (Selected Influencers)",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/manager/endorse-history",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "manager",
+                  "endorse-history"
+                ],
+                "query": [
+                  {
+                    "key": "q",
+                    "value": "",
+                    "description": "opsional: keyword cari nama/platform/username"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://127.0.0.1:8000"
+      },
+      {
+        "key": "token",
+        "value": ""
+      },
+      {
+        "key": "influencer_id",
+        "value": "1"
+      },
+      {
+        "key": "criterion_id",
+        "value": "1"
+      },
+      {
+        "key": "waspas_history_id",
+        "value": "1"
+      },
+      {
+        "key": "waspas_item_id",
+        "value": "1"
+      },
+      {
+        "key": "staff_id",
+        "value": "1"
+      }
+    ]
+  }
+  
