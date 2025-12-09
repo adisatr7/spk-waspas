@@ -52,49 +52,7 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    // Tampil form register
-    public function showRegisterForm()
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
 
-            if ($user && $user->role === 'manager') {
-                return redirect()->route('manager.dashboard');
-            }
-
-            if ($user && $user->role === 'staff') {
-                return redirect()->route('staff.dashboard');
-            }
-        }
-
-        return view('auth.register');
-    }
-
-    // Proses register
-    public function register(Request $request)
-    {
-        $data = $request->validate([
-            'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password'              => ['required', 'min:6', 'confirmed'],
-            'role'                  => ['required', 'in:manager,staff'],
-        ]);
-
-        $user = User::create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role'     => $data['role'],
-        ]);
-
-        Auth::login($user);
-
-        if ($user->role === 'manager') {
-            return redirect()->route('manager.dashboard');
-        }
-
-        return redirect()->route('staff.dashboard');
-    }
 
     // Logout
     public function logout(Request $request)

@@ -26,6 +26,90 @@
     </div>
 @endif
 
+@if ($criteria->isNotEmpty())
+    <div class="row g-3 mb-3">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-warning bg-opacity-10 border-0 rounded-top">
+                    <h6 class="fw-semibold mb-0">Data Kriteria</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 50px;">No</th>
+                                    <th>Kriteria</th>
+                                    <th style="width: 70px;">Kode</th>
+                                    <th style="width: 90px;">Atribut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($criteria as $index => $c)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $c->name }}</td>
+                                        <td><strong>{{ $c->code }}</strong></td>
+                                        <td>
+                                            @if ($c->type === 'benefit')
+                                                <span class="badge text-bg-success">Benefit</span>
+                                            @else
+                                                <span class="badge text-bg-danger">Cost</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-warning bg-opacity-10 border-0 rounded-top">
+                    <h6 class="fw-semibold mb-0">Data Pembobotan</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 50px;">No</th>
+                                    <th>Kriteria</th>
+                                    <th style="width: 70px;">Kode</th>
+                                    <th style="width: 110px;">Bobot (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $totalPercentage = 0; @endphp
+                                @foreach ($criteria as $index => $c)
+                                    @php
+                                        $percentage = $c->weight * 100;
+                                        $totalPercentage += $percentage;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $c->name }}</td>
+                                        <td><strong>{{ $c->code }}</strong></td>
+                                        <td>{{ rtrim(rtrim(number_format($percentage, 2), '0'), '.') }}%</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <th colspan="3" class="text-end">Total</th>
+                                    <th>{{ rtrim(rtrim(number_format($totalPercentage, 2), '0'), '.') }}%</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 <div class="card border-0 shadow-sm rounded-4 mb-3">
     <div class="card-body p-3 p-md-4">
         <form action="{{ route('staff.waspas.store') }}" method="POST">

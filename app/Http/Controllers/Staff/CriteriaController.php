@@ -40,10 +40,13 @@ class CriteriaController extends Controller
 
         $criteria = $query->paginate(10)->withQueryString();
 
+        // Data lengkap untuk tampilan ringkasan (Data Kriteria & Bobot)
+        $allCriteria = Criterion::orderBy('code')->get();
+
         // Total bobot aktif (buat informasi)
         $totalWeight = Criterion::where('is_active', true)->sum('weight');
 
-        return view('staff.criteria.index', compact('criteria', 'search', 'totalWeight'));
+        return view('staff.criteria.index', compact('criteria', 'search', 'totalWeight', 'allCriteria'));
     }
 
     /**

@@ -183,10 +183,7 @@
             <button class="btn auth-btn w-100">Login</button>
         </form>
 
-        <p class="auth-footer mt-3 text-center">
-            Belum punya akun?
-            <a href="{{ route('register') }}">Daftar sekarang</a>
-        </p>
+
 
     </div>
 </div>
