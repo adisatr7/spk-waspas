@@ -10,43 +10,62 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 2222
-          script: |
-            cd /srv/spk-waspas
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
 
-            # Pull latest code
-            git pull origin main
+      - name: Configure SSH for VPS
+        run: |
+          cat > ~/.ssh/config << 'EOF'
+          Host vps
+            HostName ${{ secrets.VPS_HOST }}
+            User ${{ secrets.VPS_USERNAME }}
+            Port 2222
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking no
+            ConnectTimeout 10
+          EOF
+          chmod 600 ~/.ssh/config
 
-            # Decode and create .env files
-            echo "${{ secrets.ENV_BASE64 }}" | base64 -d > .env
-            echo "${{ secrets.ENV_DB_BASE64 }}" | base64 -d > .env.db
+      - name: Deploy to VPS via ssh
+        env:
+          ENV_BASE64: ${{ secrets.ENV_BASE64 }}
+          ENV_DB_BASE64: ${{ secrets.ENV_DB_BASE64 }}
+        run: |
+          ssh vps 'bash -s' <<'REMOTE_EOF'
+          set -euo pipefail
+          cd /srv/spk-waspas
 
-            # Build and restart containers
-            docker compose down
-            docker compose build --no-cache
-            RUN_MIGRATIONS=false docker compose up -d
+          # Pull latest code
+          git pull origin main
 
-            # Wait for containers to be healthy
-            echo "Waiting for containers..."
-            sleep 15
+          # Decode and create .env files
+          echo "${ENV_BASE64}" | base64 -d > .env
+          echo "${ENV_DB_BASE64}" | base64 -d > .env.db
 
-            # Put app in maintenance mode
-            docker compose exec -T app php artisan down --message="Deploy in progress" --retry=60 || true
+          # Build and restart containers
+          docker compose down || true
+          docker compose build --no-cache
+          RUN_MIGRATIONS=false docker compose up -d
 
-            # Run migrations
-            docker compose exec -T app php artisan migrate --force
+          # Wait for containers to be healthy
+          echo "Waiting for containers..."
+          sleep 15
 
-            # Clear and cache
-            docker compose exec -T app php artisan route:cache
-            docker compose exec -T app php artisan view:cache
+          # Put app in maintenance mode
+          docker compose exec -T app php artisan down --message="Deploy in progress" --retry=60 || true
 
-            # Bring app back online
-            docker compose exec -T app php artisan up
+          # Run migrations
+          docker compose exec -T app php artisan migrate --force
 
-            echo "Deployment completed successfully!"
+          # Clear and cache
+          docker compose exec -T app php artisan route:cache
+          docker compose exec -T app php artisan view:cache
+
+          # Bring app back online
+          docker compose exec -T app php artisan up
+
+          echo "Deployment completed successfully!"
+          REMOTE_EOF
