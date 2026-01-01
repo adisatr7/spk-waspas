@@ -1,0 +1,64 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spk-waspas:latest
+    container_name: spk-waspas-app
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=production
+    volumes:
+      - ./:/var/www/html
+      - vendor-data:/var/www/html/vendor
+      - storage-data:/var/www/html/storage/app
+      - logs-data:/var/www/html/storage/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - spk-network
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep php-fpm || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: mysql:8.0
+    container_name: spk-waspas-db
+    restart: unless-stopped
+    env_file:
+      - .env.db
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - spk-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: --default-authentication-plugin=mysql_native_password
+
+networks:
+  spk-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  vendor-data:
+    driver: local
+  storage-data:
+    driver: local
+  logs-data:
+    driver: local
