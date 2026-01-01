@@ -34,7 +34,7 @@ jobs:
           ENV_BASE64: ${{ secrets.ENV_BASE64 }}
           ENV_DB_BASE64: ${{ secrets.ENV_DB_BASE64 }}
         run: |
-          ssh vps 'bash -s' <<'REMOTE_EOF'
+          ssh vps 'bash -s' <<REMOTE_EOF
           set -euo pipefail
           cd /srv/spk-waspas
 
